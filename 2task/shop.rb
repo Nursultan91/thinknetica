@@ -12,6 +12,11 @@ end
 
 puts basket
 
+total_price = 0
+
 basket.each do |good, amount|
   amount.each { |count, price| puts "#{good} - #{count.to_i * price.to_i}" }
+  amount.each { |count, price| total_price += (count.to_i * price.to_i) }
 end
+
+puts total_price
