@@ -5,26 +5,15 @@ user_month = gets.to_i
 print "Введите год "
 user_year = gets.to_i
 
-user_year % 4 == 0 ? feb_day = 29 : feb_day = 28
+puts "Дата которую вы ввели #{user_day}-е число, #{user_month}-го месяца, #{user_year}-го года"
 
-puts "Дата которую вы ввели #{user_day}, #{user_month}, #{user_year}"
-
-monthes = {january: 31, february: feb_day, march: 31, april: 30, may: 31, june: 30, july: 31, august: 31, september: 30, october: 31, november: 30, december: 31}
-month_days = []
-
-monthes.each {|month, days| month_days<< days }
-
-puts "#{month_days}"
-
-searched_day_monthes = []
-
-month_days[0..user_month-1].each do |day_in_month|
-  searched_day_monthes << day_in_month
+month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+def is_leap(year)
+  (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ? true : false
 end
 
-puts "#{searched_day_monthes}"
+month_days[1] = 29 if is_leap(user_year)
 
-sum_days = user_day
-searched_day_monthes.each {|a| sum_days += a }
+user_month == 1 ? sum_days = user_day : sum_days = month_days.take(user_month - 1).reduce(:+) + user_day
 
 puts "#{sum_days}-м днем в году является дата которую вы ввели"

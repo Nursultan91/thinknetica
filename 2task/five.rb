@@ -1,6 +1,9 @@
 ary = []
-for i in 10..100
-  ary << i if i%5 == 0
+i = 10
+loop do
+  i+=5
+  ary << i
+  break if i == 100
 end
 
 puts "#{ary}"

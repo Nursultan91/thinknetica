@@ -2,12 +2,12 @@ basket = {}
 loop do
   print "Введите название товара "
   goods_name = gets.chomp
-  break if goods_name == "stop"
+  break if goods_name.downcase == "stop"
   print "Введите количество товара "
-  goods_count = gets.to_i
+  count = gets.to_i
   print "Введите цену товара "
-  goods_price = gets.to_i
-  basket[goods_name.to_s] = {goods_count.to_s => goods_price}
+  price = gets.to_i
+  basket[goods_name.to_sym] = {count => price}
 end
 
 puts basket
