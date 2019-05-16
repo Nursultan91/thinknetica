@@ -1,7 +1,7 @@
 puts "Введите ваше имя"
 name = gets.chomp
 puts "Введите ваш рост"
-weight = gets.chomp.to_i
+weight = gets.to_i
 
 ideal_weight = weight - 110
 
