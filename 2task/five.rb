@@ -1,9 +1,3 @@
-ary = []
-i = 10
-loop do
-  i+=5
-  ary << i
-  break if i == 100
-end
+ary = (10..100).step(5).to_a
 
 puts "#{ary}"
