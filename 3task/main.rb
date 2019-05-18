@@ -12,8 +12,12 @@ cr = Station.new("Casterly Rock")
 north = Route.new(wall, wf)
 
 sam = Train.new(1, "cargo", 4)
+john = Train.new(2, "cargo", 4)
+davos = Train.new(3, "cargo", 4)
 north.add_station(hg)
 north.add_station(kl)
 north.add_station(cr)
 sam.take_route(north)
-sam.go_front
+john.take_route(north)
+davos.take_route(north)
+pry

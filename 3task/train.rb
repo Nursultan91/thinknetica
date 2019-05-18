@@ -24,6 +24,7 @@ class Train
     if route.instance_of? Route
       @route = route
       @station = route.stations.first
+      @station.park_train(self)
     else
       puts "Train can't take #{route} as Route"
     end
@@ -33,7 +34,9 @@ class Train
     if self.station == self.route.stations.last
       puts "We are on the last station. No way front"
     else
+      @station.send_train(self)
       @station = self.route.stations[self.route.stations.index(self.station)+1]
+      @station.park_train(self)
     end
   end
 
@@ -41,7 +44,9 @@ class Train
     if self.station == self.route.stations.first
       puts "We are on the first station. No way back"
     else
+      @station.send_train(self)
       @station = self.route.stations[self.route.stations.index(self.station)-1]
+      @station.park_train(self)
     end
   end
 
