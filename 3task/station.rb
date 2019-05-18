@@ -13,14 +13,12 @@ class Station
       @parked_trains.push(train)
       puts "Train #{train} has been parked succesfully"
     end
-    puts "______________"
   end
 
   def list_of_trains
     puts "______________"
     puts "The list of trains on #{self.title} Station"
     @parked_trains.each {|train| puts "Train - #{train}"}
-    puts "______________"
   end
 
   def send_train(train)
@@ -31,18 +29,13 @@ class Station
     else
       puts "Train #{train} is not on #{self.title} Station"
     end
-    puts "______________"
+  end
+
+  def trains_by_type(type)
+    puts "The list of train numbers with #{type} - type"
+    @parked_trains.select {|train| train.type == type }.each do |train|
+      print "#{train.number} "
+      puts ""
+    end
   end
 end
-
-wall = Station.new("Wall")
-wall.park_train("ewq")
-wall.send_train("ewq")
-wall.send_train("ewq")
-wall.park_train("ewq")
-wall.park_train("dsa")
-wall.park_train("cxz")
-puts wall.title
-puts wall.list_of_trains
-puts wall.parked_trains.count
-puts wall.parked_trains.include?("ewq")
