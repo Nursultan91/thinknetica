@@ -6,12 +6,16 @@ class Station
   end
 
   def park_train(train)
-    puts "______________"
-    if @parked_trains.include?(train)
-      puts "Train #{train} is already parked on this station"
+    if train.instance_of? Train
+      puts "______________"
+      if @parked_trains.include?(train)
+        puts "Train #{train} is already parked on this station"
+      else
+        @parked_trains.push(train)
+        puts "Train #{train} has been parked succesfully"
+      end
     else
-      @parked_trains.push(train)
-      puts "Train #{train} has been parked succesfully"
+      puts "Only Trains can be parked. #{train} belongs to #{train.class} class"
     end
   end
 

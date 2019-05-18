@@ -12,8 +12,5 @@ puts cxz
 
 wall = Station.new("Wall")
 wall.park_train(ewq)
-wall.park_train(ewq)
-wall.park_train(dsa)
-wall.park_train(cxz)
 
 wall.trains_by_type("cargo")
