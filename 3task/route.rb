@@ -20,7 +20,7 @@ class Route
     end
   end
 
-  def rem_station(station)
+  def del_station(station)
     if station.instance_of? Station
       if @stations.include?(station)
         @stations.delete(station)
