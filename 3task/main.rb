@@ -1,6 +1,7 @@
 require 'pry'
 class Station
   attr_reader :title
+  attr_reader :parked_trains
 
   def initialize(title)
     @title = title
@@ -11,17 +12,11 @@ class Station
     @parked_trains.push(train)
   end
 
-  def parked_trains
-    @parked_trains
+  def trains_by_type(type)
+    @parked_trains.select {|train| train.type == type }
   end
 
-  def train_by_types
-    @parked_trains.each do |train|
-      puts "#{train} - #{train.type}"
-    end
-  end
-
-  def launch_train(train)
+  def send_train(train)
     @parked_trains.delete(train)
   end
 end
@@ -54,7 +49,7 @@ class Route
 end
 class Train
   attr_accessor :speed
-  attr_reader :number
+  attr_reader :number, :type, :wagons_num, :speed
 
   def initialize(number, type, wagons_num, speed = 0)
     @number = number
@@ -68,13 +63,14 @@ class Train
   end
 
   def change_wagons(arg)
+    argument = arg.to_s
     stop
-    if add
+    if argument == "add"
       @wagons_num +=1
-    elsif rem
+    elsif argument == "rem"
       @wagons_num -=1
     else
-      puts "I Don'y know"
+      puts "I Don't know"
     end
   end
 
@@ -136,6 +132,7 @@ john = Train.new(2,"pas",6,20)
 puts sam
 puts sam.number
 sam.get_route(meister)
+pry
 # puts sam.current_station
 # puts sam.current_route
 # puts sam.current_route.station_list.first.title
