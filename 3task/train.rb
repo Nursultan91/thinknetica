@@ -6,6 +6,7 @@ class Train
     @number = number
     @type = type
     @wagons = wagons
+    @speed = speed
   end
 
   def stop
@@ -13,27 +14,21 @@ class Train
   end
 
   def add_wagon
-    @wagons +=1
+    @wagons += 1
   end
 
   def del_wagon
-    @wagons -=1
+    @wagons -= 1 unless @wagons == 1
   end
 
   def take_route(route)
-    if route.instance_of? Route
-      @route = route
-      @station = route.stations.first
-      @station.park_train(self)
-    else
-      puts "Train can't take #{route} as Route"
-    end
+    @route = route
+    @station = route.stations.first
+    @station.park_train(self)
   end
 
   def go_front
-    if self.station == self.route.stations.last
-      puts "We are on the last station. No way front"
-    else
+    unless self.station == self.route.stations.last
       @station.send_train(self)
       @station = self.route.stations[self.route.stations.index(self.station)+1]
       @station.park_train(self)
@@ -41,9 +36,7 @@ class Train
   end
 
   def go_back
-    if self.station == self.route.stations.first
-      puts "We are on the first station. No way back"
-    else
+    unless self.station == self.route.stations.first
       @station.send_train(self)
       @station = self.route.stations[self.route.stations.index(self.station)-1]
       @station.park_train(self)
@@ -51,17 +44,13 @@ class Train
   end
 
   def next
-    if self.station == self.route.stations.last
-      puts "We are on the last station. No way front"
-    else
+    unless self.station == self.route.stations.last
       puts self.route.stations[self.route.stations.index(self.station)+1].title
     end
   end
 
   def prev
-    if self.station == self.route.stations.first
-      puts "We are on the first station. No way back"
-    else
+    unless self.station == self.route.stations.first
       puts self.route.stations[self.route.stations.index(self.station)-1].title
     end
   end

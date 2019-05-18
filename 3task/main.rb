@@ -8,9 +8,7 @@ wf = Station.new("Winterfell")
 hg = Station.new("Highgarden")
 kl = Station.new("Kings Landing")
 cr = Station.new("Casterly Rock")
-
 north = Route.new(wall, wf)
-
 sam = Train.new(1, "cargo", 4)
 john = Train.new(2, "cargo", 4)
 davos = Train.new(3, "cargo", 4)
