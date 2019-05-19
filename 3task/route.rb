@@ -9,6 +9,7 @@ class Route
   end
 
   def del_station(station)
-    @stations.delete(station) unless station == @stations.last || station == @stations.first
+    return if [@stations.first, @stations.last].include?(station)
+    @stations.delete(station)
   end
 end
