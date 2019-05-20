@@ -26,7 +26,7 @@ class Train
   end
 
   def del_wagon
-    @wagons -= 1 unless @wagons == 1
+    @wagons -= 1 if @wagons > 0
   end
 
   def take_route(route)
@@ -40,12 +40,10 @@ class Train
   end
 
   def go_front
-    unless self.current_station == self.route.stations.last
-      current_station.send_train(self)
-      current_station = next_station
-      current_station.park_train(self)
-      @current_station_index += 1
-    end
+    return if next_station.nil?
+    current_station.send_train(self)
+    next_station.park_train(self)
+    @current_station_index += 1
   end
 
   def go_back
@@ -58,12 +56,11 @@ class Train
   end
 
   def next_station
-    route.stations[@current_station_index+1]
+    route.stations[@current_station_index + 1]
   end
 
   def previous_station
-    unless self.current_station == self.route.stations.first
-      route.stations[@current_station_index-1]
-    end
+    return unless @current_station_index > 0
+    route.stations[@current_station_index - 1]
   end
 end
