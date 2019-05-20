@@ -1,5 +1,5 @@
 class Train
-  attr_reader :number, :type, :wagons, :route, :station, :speed, :current_station_index
+  attr_reader :number, :type, :wagons, :route, :speed, :current_station_index
 
   def initialize(number, type, wagons, speed = 0)
     @number = number
@@ -8,18 +8,13 @@ class Train
     @speed = speed
   end
 
-  def stop
-    self.speed = 0
-  end
-
   def increase_speed(speed)
     @speed += speed
   end
 
   def decrease_speed(speed)
-    if @speed > speed
-      @speed -= speed
-    end
+    @speed -= speed
+    @speed = 0 if @speed < 0
   end
 
   def stop
@@ -36,9 +31,8 @@ class Train
 
   def take_route(route)
     @route = route
-    @station = route.stations.first
-    @station.park_train(self)
     @current_station_index = 0
+    current_station.park_train(self)
   end
 
   def current_station
@@ -46,32 +40,30 @@ class Train
   end
 
   def go_front
-    unless self.station == self.route.stations.last
-      @station.send_train(self)
-      @station = self.route.stations[@current_station_index+1]
-      @station.park_train(self)
+    unless self.current_station == self.route.stations.last
+      current_station.send_train(self)
+      current_station = next_station
+      current_station.park_train(self)
       @current_station_index += 1
     end
   end
 
   def go_back
-    unless self.station == self.route.stations.first
-      @station.send_train(self)
-      @station = self.route.stations[@current_station_index-1]
-      @station.park_train(self)
+    unless self.current_station == self.route.stations.first
+      current_station.send_train(self)
+      current_station = previous_station
+      current_station.park_train(self)
       @current_station_index -= 1
     end
   end
 
   def next_station
-    unless self.station == self.route.stations.last
-      self.route.stations[self.route.stations.index(self.station)+1]
-    end
+    route.stations[@current_station_index+1]
   end
 
   def previous_station
-    unless self.station == self.route.stations.first
-      self.route.stations[self.route.stations.index(self.station)-1]
+    unless self.current_station == self.route.stations.first
+      route.stations[@current_station_index-1]
     end
   end
 end
