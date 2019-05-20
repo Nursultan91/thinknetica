@@ -22,6 +22,7 @@ class Train
   end
 
   def add_wagon
+    stop
     @wagons += 1
   end
 
