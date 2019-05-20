@@ -47,12 +47,10 @@ class Train
   end
 
   def go_back
-    unless self.current_station == self.route.stations.first
-      current_station.send_train(self)
-      current_station = previous_station
-      current_station.park_train(self)
-      @current_station_index -= 1
-    end
+    return if previous_station.nil?
+    current_station.send_train(self)
+    previous_station.park_train(self)
+    @current_station_index -= 1
   end
 
   def next_station
