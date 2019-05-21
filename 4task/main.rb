@@ -128,6 +128,37 @@ class Main
     end
   end
 
+  def work_with_trains
+    loop do
+      puts "Введите 1 для создания поезда"
+      puts "Введите 2 чтобы увидеть список всех поездов"
+      puts "Введите 3 чтобы рассмотреть конкретный поезд"
+      puts "Введите 4 чтобы назначать маршрут поезду"
+      puts "Введите 5 чтобы добавить вагоны к поезду"
+      puts "Введите 6 чтобы отцепить вагоны от поезда"
+      puts "Введите 7 чтобы переместить поезд по маршруту вперед"
+      puts "Введите 8 чтобы переместить поезд по маршруту назад"
+      puts "Введите 9 чтобы выйти в предыдущее меню"
+      choice = gets.to_i
+      break if choice == 9
+
+      case choice
+      when 1
+        create_train
+      when 2
+        puts "Все поезда"
+        @trains.each {|train| puts "#{train.number} - #{train}" }
+      when 3
+        puts "Выберите поезд по индексу"
+        @trains.each_with_index {|train, index| puts "#{index} - #{train}" }
+        train = @trains[gets.to_i]
+        puts train
+      else
+        puts "Я не знаю чего ты хочешь"
+      end
+    end
+  end
+
   def go
     loop do
       puts "Введите что вы хотите сделать?"
@@ -144,7 +175,7 @@ class Main
       when 2
         work_with_routes
       when 3
-        create_train
+        work_with_trains
       else
         puts "Я не знаю чего ты хочешь"
       end
