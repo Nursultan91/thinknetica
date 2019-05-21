@@ -24,6 +24,7 @@ class Main
     @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
     first_station_index = gets.to_i
     puts "Введите номер последней станции выбрав ее из списка"
+    # x.delete_at(x.index 2)
     @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
     last_station_index = gets.to_i
     route = Route.new(@stations[first_station_index], @stations[last_station_index])
@@ -74,16 +75,18 @@ class Main
       puts "Введите 1 для создания маршрута"
       puts "Введите 2 чтобы увидеть список всех маршрутов"
       puts "Введите 3 чтобы рассмотреть конкретный маршрут"
-      puts "Введите 4 чтобы увидеть список всех маршрутов"
-      puts "Введите 5 чтобы выйти в предыдущее меню"
+      puts "Введите 4 чтобы добавить станцию к марщруту"
+      puts "Введите 5 чтобы удалить станцию из марщрута"
+      puts "Введите 6 чтобы выйти в предыдущее меню"
       choice = gets.to_i
-      break if choice == 5
+      break if choice == 6
 
       case choice
       when 1
+        # Создать маршрут
         if @stations.length < 2
           puts "Для создания маршрута необходимо создать минимум две станции"
-          puts "Создать станцию - 1, предыдущее меню - 2"
+          puts "Создать станцию - 1, предыдущее меню - нажмите любую клавишу"
           user_choice = gets.to_i
           if user_choice == 1
             create_station
@@ -92,8 +95,33 @@ class Main
           create_route
         end
       when 2
+        # Посомтреть список всех маршрутов
         puts "Все маршруты"
         @routes.each { |route| puts route }
+      when 3
+        # Посмотреть конкретный маршрут
+        puts "Выберите индекс маршрута"
+        @routes.each_with_index {|route, index| puts "#{index} - #{route}" }
+        route = @routes[gets.to_i]
+        route.stations.each_with_index { |station, index|  puts "#{index + 1}-я станция - #{station.title}" }
+      when 4
+        # добавить станцию к марщруту
+        puts "Выберите индекс маршрута"
+        @routes.each_with_index {|route, index| puts "#{index} - #{route}" }
+        route = @routes[gets.to_i]
+        puts "Выберите индекс станции"
+        @stations.each_with_index {|station, index| puts "#{index} - #{station}" }
+        station = @stations[gets.to_i]
+        route.add_station(station)
+      when 5
+        # удалить станцию из марщрута
+        puts "Выберите индекс маршрута"
+        @routes.each_with_index {|route, index| puts "#{index} - #{route}" }
+        route = @routes[gets.to_i]
+        puts "Выберите индекс станции"
+        @stations.each_with_index {|station, index| puts "#{index} - #{station}" }
+        station = @stations[gets.to_i]
+        route.del_station(station)
       else
         puts "Я не понял чего ты хочешь"
       end
@@ -124,5 +152,5 @@ class Main
   end
 end
 
-asoiaf = Main.new
-asoiaf.go
+ewq = Main.new
+ewq.go
