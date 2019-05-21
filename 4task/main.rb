@@ -48,21 +48,73 @@ class Main
     @trains << train
   end
 
+  def work_with_stations
+    loop do
+      puts "Введите 1 для создания станции"
+      puts "Введите 2 чтобы увидеть список всех станций"
+      puts "Введите 3 чтобы выйти в предыдущее меню"
+      choice = gets.to_i
+      break if choice == 3
+
+      case choice
+      when 1
+        create_station
+      when 2
+        print "Начало маршрута - "
+        @stations.each { |station| print station.title + " - " }
+        puts " Конец маршрута"
+      else
+        puts "Я не понял чего ты хочешь"
+      end
+    end
+  end
+
+  def work_with_routes
+    loop do
+      puts "Введите 1 для создания маршрута"
+      puts "Введите 2 чтобы увидеть список всех маршрутов"
+      puts "Введите 3 чтобы рассмотреть конкретный маршрут"
+      puts "Введите 4 чтобы увидеть список всех маршрутов"
+      puts "Введите 5 чтобы выйти в предыдущее меню"
+      choice = gets.to_i
+      break if choice == 5
+
+      case choice
+      when 1
+        if @stations.length < 2
+          puts "Для создания маршрута необходимо создать минимум две станции"
+          puts "Создать станцию - 1, предыдущее меню - 2"
+          user_choice = gets.to_i
+          if user_choice == 1
+            create_station
+          end
+        else
+          create_route
+        end
+      when 2
+        puts "Все маршруты"
+        @routes.each { |route| puts route }
+      else
+        puts "Я не понял чего ты хочешь"
+      end
+    end
+  end
+
   def go
     loop do
       puts "Введите что вы хотите сделать?"
-      puts "1 - создать станцию"
-      puts "2 - создать маршрут"
-      puts "3 - создать поезд"
+      puts "1 - Поработать со станциями"
+      puts "2 - Поработать с марщрутами"
+      puts "3 - Поработать с поездами"
       puts "quit - завершить программу"
 
       choice = gets.chomp
       break if choice == "quit"
       case choice.to_i
       when 1
-        create_station
+        work_with_stations
       when 2
-        create_route
+        work_with_routes
       when 3
         create_train
       else
@@ -74,4 +126,3 @@ end
 
 asoiaf = Main.new
 asoiaf.go
-pry
