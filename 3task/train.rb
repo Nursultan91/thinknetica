@@ -22,11 +22,12 @@ class Train
   end
 
   def add_wagon
-    stop
+    return unless @speed == 0
     @wagons += 1
   end
 
   def del_wagon
+    return unless @speed == 0
     @wagons -= 1 if @wagons > 0
   end
 
