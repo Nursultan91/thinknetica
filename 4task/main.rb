@@ -2,19 +2,27 @@ require 'pry'
 require_relative 'station'
 require_relative 'train'
 require_relative 'route'
+require_relative 'wagon'
 
 class Main
   attr_reader :stations, :routes, :trains
 
+
+  def initialize
+    @stations = []
+    @routes = []
+    @trains = []
+  end
   def run
     loop do
       show_main_menu
       choice = gets.chomp
-      break if choice == "quit"
+      # break if choice == "quit"
       case choice.to_i
       when 1 then work_with_stations
       when 2 then work_with_routes
       when 3 then work_with_trains
+      when 0 then break
       else puts "Я не знаю чего ты хочешь"
       end
     end
@@ -22,21 +30,15 @@ class Main
 
   private
 
-  def initialize
-    @stations = []
-    @routes = []
-    @trains = []
-  end
-
   # Stations
   def work_with_stations
     loop do
       show_stations_menu
       choice = gets.to_i
-      break if choice == 0
       case choice
       when 1 then create_station
       when 2 then stations_list
+      when 0 then break
       else error_index
       end
     end
@@ -60,14 +62,14 @@ class Main
     loop do
       show_routes_menu
       choice = gets.to_i
-      break if choice == 0
       case choice
       when 1 then create_route
       when 2 then route_list
       when 3 then show_route
       when 4 then add_station_to_route
       when 5 then remove_station_from_route
-      else puts "Я не понял чего ты хочешь"
+      when 0 then break
+      else error_index
       end
     end
   end
@@ -80,23 +82,19 @@ class Main
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
   def create_route
-    if @stations.length < 2
+    loop do
+      break if @stations.length >= 2
       puts "Для создания маршрута необходимо создать минимум две станции"
-      puts "Создать станцию - 1, предыдущее меню - нажмите любую клавишу"
-      user_choice = gets.to_i
-      if user_choice == 1
-        create_station
-      end
-    else
-      puts "Введите номер первой станции выбрав ее из списка"
-      @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
-      first_station_index = gets.to_i
-      puts "Введите номер последней станции выбрав ее из списка"
-      @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
-      last_station_index = gets.to_i
-      route = Route.new(@stations[first_station_index], @stations[last_station_index])
-      @routes << route
+      create_station
     end
+    puts "Введите номер первой станции выбрав ее из списка"
+    @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
+    first_station_index = gets.to_i
+    puts "Введите номер последней станции выбрав ее из списка"
+    @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
+    last_station_index = gets.to_i
+    route = Route.new(@stations[first_station_index], @stations[last_station_index])
+    @routes << route
   end
   def add_station_to_route
     puts "Выберите индекс маршрута"
@@ -118,7 +116,7 @@ class Main
   end
   def show_route
     puts "Выберите индекс маршрута"
-    @routes.each_with_index {|route, index| puts "#{index} - #{route}" }
+    show_collection(@routes)
     route = @routes[gets.to_i]
     route.stations.each_with_index { |station, index|  puts "#{index + 1}-я станция - #{station.title}" }
   end
@@ -149,22 +147,18 @@ class Main
   def create_passenger_train
     puts "Введите номер поезда"
     number = gets.to_i
-    puts "Введите количество вагонов"
-    wagons = gets.to_i
-    train = Passenger.new(number, wagons)
+    train = Passenger.new(number)
     @trains << train
   end
   def create_cargo_train
     puts "Введите номер поезда"
     number = gets.to_i
-    puts "Введите количество вагонов"
-    wagons = gets.to_i
-    train = Cargo.new(number, wagons)
+    train = Cargo.new(number)
     @trains << train
   end
   def describe_one_train
     puts "Выберите поезд по индексу"
-    @trains.each_with_index {|train, index| puts "#{index} - #{train}" }
+    show_collection(@trains)
     train = @trains[gets.to_i]
     puts "#{train} - #{train.type} - #{train.wagons} - #{train.number}"
   end
@@ -179,19 +173,19 @@ class Main
   end
   def add_wagon_to_train
     puts "Выберите поезд по индексу"
-    @trains.each_with_index {|train, index| puts "#{index} - #{train}" }
+    show_collection(@trains)
     train = @trains[gets.to_i]
     train.add_wagon
   end
   def remove_wagon_from_train
     puts "Выберите поезд по индексу"
-    @trains.each_with_index {|train, index| puts "#{index} - #{train}" }
+    show_collection(@trains)
     train = @trains[gets.to_i]
     train.del_wagon
   end
   def move_train_forward
     puts "Выберите поезд по индексу"
-    @trains.each_with_index {|train, index| puts "#{index} - #{train}" }
+    show_collection(@trains)
     train = @trains[gets.to_i]
     train.go_front
   end
@@ -216,7 +210,6 @@ class Main
     loop do
       show_trains_menu
       choice = gets.to_i
-      break if choice == 0
       case choice
       when 1 then create_train
       when 2 then all_trains
@@ -226,11 +219,11 @@ class Main
       when 6 then remove_wagon_from_train
       when 7 then move_train_forward
       when 8 then move_train_backward
-      else puts "Я не знаю чего ты хочешь"
+      when 0 then break
+      else error_index
       end
     end
   end
-  # Wagons
 
 
   def show_collection(collection)
@@ -243,7 +236,7 @@ class Main
     puts "1 - Поработать со станциями"
     puts "2 - Поработать с марщрутами"
     puts "3 - Поработать с поездами"
-    puts "quit - завершить программу"
+    puts "0 - завершить программу"
   end
   def error_index
     puts "Я не понял чего ты хочешь"

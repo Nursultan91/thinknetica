@@ -1,8 +1,8 @@
+require_relative 'wagon'
 class Train
   attr_reader :number, :type, :wagons, :route, :speed, :current_station_index
   def increase_speed(speed)
     @speed += speed
-
   end
 
   def decrease_speed(speed)
@@ -16,12 +16,24 @@ class Train
 
   def add_wagon
     return unless @speed == 0
-    @wagons += 1
+    if self.class == Cargo
+      new_wagon = CargoWagon.new
+    else
+      new_wagon = PassengerWagon.new
+    end
+    @wagons << new_wagon
   end
 
   def del_wagon
     return unless @speed == 0
-    @wagons -= 1 if @wagons > 0
+    puts "Выберите Вагон по индексу"
+    list_of_wagons
+    @wagons.delete_at(gets.to_i)
+    list_of_wagons
+  end
+
+  def list_of_wagons
+    @wagons.each_with_index { |wagon, index | puts "#{index} - #{wagon}" }
   end
 
   def take_route(route)
@@ -59,11 +71,11 @@ class Train
 end
 
 class Cargo < Train
-  def initialize(number, wagons, speed = 0)
+  def initialize(number)
     @number = number
     @type = initial_type
-    @wagons = wagons
-    @speed = speed
+    @wagons = []
+    @speed = 0
   end
 
   def initial_type
@@ -72,10 +84,10 @@ class Cargo < Train
 end
 
 class Passenger < Train
-  def initialize(number, wagons, speed = 0)
+  def initialize(number)
     @number = number
-    @wagons = wagons
-    @speed = speed
+    @wagons = []
+    @speed = 0
     @type = initial_type
   end
 
