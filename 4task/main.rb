@@ -136,27 +136,37 @@ class Main
     @trains.each {|train| puts "#{train.number} - #{train}" }
   end
   def create_train
-    puts "Введите номер поезда"
-    number = gets.to_i
     puts "Выберите тип: 1 - грузовой, 2 - пассажирский"
     train_type_choice = gets.to_i
     if train_type_choice == 1
-      type = "cargo"
+      create_cargo_train
     elsif train_type_choice == 2
-      type = "pass"
+      create_passenger_train
     else
       puts "Нет такого типа. Попробуйте еще раз"
     end
+  end
+  def create_passenger_train
+    puts "Введите номер поезда"
+    number = gets.to_i
     puts "Введите количество вагонов"
     wagons = gets.to_i
-    train = Train.new(number, type, wagons)
+    train = Passenger.new(number, wagons)
+    @trains << train
+  end
+  def create_cargo_train
+    puts "Введите номер поезда"
+    number = gets.to_i
+    puts "Введите количество вагонов"
+    wagons = gets.to_i
+    train = Cargo.new(number, wagons)
     @trains << train
   end
   def describe_one_train
     puts "Выберите поезд по индексу"
     @trains.each_with_index {|train, index| puts "#{index} - #{train}" }
     train = @trains[gets.to_i]
-    puts train
+    puts "#{train} - #{train.type} - #{train.wagons} - #{train.number}"
   end
   def set_route_to_train
     puts "Выберите поезд"
@@ -220,6 +230,8 @@ class Main
       end
     end
   end
+  # Wagons
+
 
   def show_collection(collection)
     collection.each_with_index do |item, index|

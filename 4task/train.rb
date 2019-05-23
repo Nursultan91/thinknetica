@@ -1,15 +1,8 @@
 class Train
   attr_reader :number, :type, :wagons, :route, :speed, :current_station_index
-
-  def initialize(number, type, wagons, speed = 0)
-    @number = number
-    @type = type
-    @wagons = wagons
-    @speed = speed
-  end
-
   def increase_speed(speed)
     @speed += speed
+
   end
 
   def decrease_speed(speed)
@@ -62,5 +55,31 @@ class Train
   def previous_station
     return unless @current_station_index > 0
     route.stations[@current_station_index - 1]
+  end
+end
+
+class Cargo < Train
+  def initialize(number, wagons, speed = 0)
+    @number = number
+    @type = initial_type
+    @wagons = wagons
+    @speed = speed
+  end
+
+  def initial_type
+    "Cargo"
+  end
+end
+
+class Passenger < Train
+  def initialize(number, wagons, speed = 0)
+    @number = number
+    @wagons = wagons
+    @speed = speed
+    @type = initial_type
+  end
+
+  def initial_type
+    "Passenger"
   end
 end
