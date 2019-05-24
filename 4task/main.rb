@@ -38,6 +38,7 @@ class Main
       case choice
       when 1 then create_station
       when 2 then stations_list
+      when 3 then describe_one_station
       when 0 then break
       else error_index
       end
@@ -46,6 +47,7 @@ class Main
   def show_stations_menu
     puts "Введите 1 для создания станции"
     puts "Введите 2 чтобы увидеть список всех станций"
+    puts "Введите 3 чтобы рассмотреть конкретную станцию"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
   def create_station
@@ -56,6 +58,13 @@ class Main
   end
   def stations_list
     @stations.each_with_index { |station, index| puts "#{index + 1}-я Станция - #{station.title}" }
+  end
+  def describe_one_station
+    puts "Выберите номер станции"
+    @stations.each_with_index { |station, index| puts "#{index + 1}-я Станция - #{station.title}" }
+    station = @stations[gets.to_i - 1]
+    puts station
+    puts station.trains
   end
   # Routes
   def work_with_routes
@@ -160,7 +169,12 @@ class Main
     puts "Выберите поезд по индексу"
     show_collection(@trains)
     train = @trains[gets.to_i]
-    puts "#{train} - #{train.type} - #{train.wagons} - #{train.number}"
+    puts "Номер объекта -#{train}"
+    puts "Тип поезда - #{train.type}"
+    puts "Количество вагонов - #{train.wagons}"
+    puts "Номер Поезда - #{train.number}"
+    puts "Текущая станция - #{train.current_station.title}"
+    puts "Маршрут - #{train.route}"
   end
   def set_route_to_train
     puts "Выберите поезд"
