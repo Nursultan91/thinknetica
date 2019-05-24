@@ -57,11 +57,11 @@ class Main
     @stations << station
   end
   def stations_list
-    @stations.each_with_index { |station, index| puts "#{index + 1}-я Станция - #{station.title}" }
+    @stations.to_enum.with_index(1).each { |station, index| puts "#{index}-я станция #{station.title}" }
   end
   def describe_one_station
     puts "Выберите номер станции"
-    @stations.each_with_index { |station, index| puts "#{index + 1}-я Станция - #{station.title}" }
+    @stations.to_enum.with_index(1).each { |station, index| puts "#{index}-я станция #{station.title}" }
     station = @stations[gets.to_i - 1]
     puts station
     puts station.trains
@@ -97,11 +97,11 @@ class Main
       create_station
     end
     puts "Введите номер первой станции выбрав ее из списка"
-    @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
-    first_station_index = gets.to_i
+    @stations.to_enum.with_index(1).each { |station, index| puts "#{index}: #{station.title}" }
+    first_station_index = gets.to_i - 1
     puts "Введите номер последней станции выбрав ее из списка"
-    @stations.each_with_index {|station, index| puts "#{index} - #{station.title}"}
-    last_station_index = gets.to_i
+    @stations.to_enum.with_index(1).each { |station, index| puts "#{index}: #{station.title}" }
+    last_station_index = gets.to_i - 1
     route = Route.new(@stations[first_station_index], @stations[last_station_index])
     @routes << route
   end
@@ -127,14 +127,14 @@ class Main
     puts "Выберите индекс маршрута"
     show_collection(@routes)
     route = @routes[gets.to_i]
-    route.stations.each_with_index { |station, index|  puts "#{index + 1}-я станция - #{station.title}" }
+    route.stations.to_enum.with_index(1).each { |station, index| puts "#{index}-я станция #{station.title}" }
   end
   def route_list
     puts "Все маршруты"
     @routes.each do |route|
       puts route
       puts "Станции этого маршрута"
-      route.stations.each_with_index { |station, index| puts "#{index + 1}-я станция #{station.title}" }
+      route.stations.to_enum.with_index(1).each { |station, index| puts "#{index}-я станция #{station.title}" }
     end
   end
   # Trains
@@ -199,14 +199,14 @@ class Main
   end
   def move_train_forward
     puts "Выберите поезд по индексу"
-    show_collection(@trains)
-    train = @trains[gets.to_i]
+    @trains.to_enum.with_index(1).each { |train, index| puts "#{index}: - #{train}" }
+    train = @trains[gets.to_i - 1]
     train.go_front
   end
   def move_train_backward
     puts "Выберите поезд по индексу"
-    @trains.each_with_index {|train, index| puts "#{index} - #{train}" }
-    train = @trains[gets.to_i]
+    @trains.to_enum.with_index(1).each { |train, index| puts "#{index}: - #{train}" }
+    train = @trains[gets.to_i - 1]
     train.go_back
   end
   def show_trains_menu
