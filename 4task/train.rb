@@ -69,29 +69,3 @@ class Train
     route.stations[@current_station_index - 1]
   end
 end
-
-class Cargo < Train
-  def initialize(number)
-    @number = number
-    @type = initial_type
-    @wagons = []
-    @speed = 0
-  end
-
-  def initial_type
-    "Cargo"
-  end
-end
-
-class Passenger < Train
-  def initialize(number)
-    @number = number
-    @wagons = []
-    @speed = 0
-    @type = initial_type
-  end
-
-  def initial_type
-    "Passenger"
-  end
-end
