@@ -1,5 +1,6 @@
 class Train
   attr_reader :number, :type, :train_wagons, :route, :speed, :current_station_index
+
   def increase_speed(speed)
     @speed += speed
   end
@@ -19,16 +20,9 @@ class Train
     @train_wagons << wagon
   end
 
-  def del_wagon
+  def del_wagon(wagon)
     return unless @speed == 0
-    puts "Выберите Вагон по индексу"
-    list_of_train_wagons
-    @train_wagons.delete_at(gets.to_i)
-    list_of_train_wagons
-  end
-
-  def list_of_train_wagons
-    @train_wagons.each_with_index { |wagon, index | puts "#{index} - #{wagon}" }
+    @train_wagons.delete(wagon)
   end
 
   def take_route(route)
@@ -62,5 +56,9 @@ class Train
   def previous_station
     return unless @current_station_index > 0
     route.stations[@current_station_index - 1]
+  end
+
+  def info
+    self.number
   end
 end
