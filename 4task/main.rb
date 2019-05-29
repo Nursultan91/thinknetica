@@ -1,11 +1,11 @@
 require_relative 'station'
 require_relative 'route'
-require './train/train.rb'
-require './train/cargo_train.rb'
-require './train/passenger_train.rb'
-require './wagon/wagon.rb'
-require './wagon/cargo_wagon.rb'
-require './wagon/passenger_wagon.rb'
+require_relative './trains/train'
+require_relative './trains/cargo_train'
+require_relative './trains/passenger_train'
+require_relative './wagons/wagon'
+require_relative './wagons/cargo_wagon'
+require_relative './wagons/passenger_wagon'
 
 class Main
   attr_reader :stations, :routes, :trains
