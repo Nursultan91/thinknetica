@@ -8,7 +8,7 @@ require_relative './wagons/cargo_wagon'
 require_relative './wagons/passenger_wagon'
 
 class Main
-  attr_reader :stations, :routes, :trains
+  attr_reader :stations, :routes, :trains, :wagons
 
   def initialize
     @stations = []
