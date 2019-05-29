@@ -113,25 +113,25 @@ class Main
   def add_station_to_route
     puts "Выберите индекс маршрута"
     show_collection(@routes)
-    route = @routes[gets.to_i]
+    route = @routes[gets.to_i - 1]
     puts "Выберите индекс станции"
-    show_collection(@stations)
-    station = @stations[gets.to_i]
+    show_stations_list(@stations)
+    station = @stations[gets.to_i - 1]
     route.add_station(station)
   end
   def remove_station_from_route
     puts "Выберите индекс маршрута"
     show_collection(@routes)
-    route = @routes[gets.to_i]
+    route = @routes[gets.to_i - 1]
     puts "Выберите индекс станции"
-    show_collection(@stations)
-    station = @stations[gets.to_i]
+    show_stations_list(@stations)
+    station = @stations[gets.to_i - 1]
     route.del_station(station)
   end
   def show_route
     puts "Выберите индекс маршрута"
     show_collection(@routes)
-    route = @routes[gets.to_i]
+    route = @routes[gets.to_i - 1]
     route.stations.to_enum.with_index(1).each { |station, index| puts "#{index}-я станция #{station.title}" }
   end
   def route_list
@@ -145,7 +145,7 @@ class Main
   # Trains
   def all_trains
     puts "Все поезда"
-    @trains.each {|train| puts "#{train.number} - #{train}" }
+    show_collection(@trains)
   end
   def create_train
     puts "Выберите тип: 1 - грузовой, 2 - пассажирский"
@@ -173,7 +173,7 @@ class Main
   def describe_one_train
     puts "Выберите поезд по индексу"
     show_collection(@trains)
-    train = @trains[gets.to_i]
+    train = @trains[gets.to_i - 1]
     puts "Номер объекта -#{train}"
     puts "Тип поезда - #{train.type}"
     puts "Номер Поезда - #{train.number}"
@@ -193,25 +193,29 @@ class Main
   def set_route_to_train
     puts "Выберите поезд"
     show_collection(@trains)
-    train = @trains[gets.to_i]
+    train = @trains[gets.to_i - 1]
     puts "Выберите индекс маршрута"
     show_collection(@routes)
-    route = @routes[gets.to_i]
+    route = @routes[gets.to_i - 1]
     train.take_route(route)
   end
   def add_wagon_to_train
     puts "Выберите поезд по индексу"
     show_collection(@trains)
-    train = @trains[gets.to_i]
+    train = @trains[gets.to_i - 1]
     puts "Выберите вагон по индексу"
     show_collection(@wagons)
-    wagon = @wagons[gets.to_i]
-    train.add_wagon(wagon)
+    wagon = @wagons[gets.to_i - 1]
+    if train.train_wagons.include?(wagon)
+      puts "Этот Вагон уже есть в данном составе"
+    else
+      train.add_wagon(wagon)
+    end
   end
   def remove_wagon_from_train
     puts "Выберите поезд по индексу"
     show_collection(@trains)
-    train = @trains[gets.to_i]
+    train = @trains[gets.to_i - 1]
     train.del_wagon
   end
   def move_train_forward
@@ -301,16 +305,18 @@ class Main
   def describe_one_wagon
     puts "Выберите вагон по индексу"
     show_collection(@wagons)
-    wagon = @wagons[gets.to_i]
+    wagon = @wagons[gets.to_i - 1]
     puts "Номер объекта -#{wagon}"
     puts "Тип вагона - #{wagon.type}"
   end
 
-
   def show_collection(collection)
-    collection.each_with_index do |item, index|
+    collection.to_enum.with_index(1).each do |item, index|
       puts "#{index} - #{item}"
     end
+  end
+  def show_stations_list(station_list)
+    station_list.to_enum.with_index(1).each { |station, index| puts "#{index}-я станция #{station.title}" }
   end
   def show_main_menu
     puts "Введите что вы хотите сделать?"
