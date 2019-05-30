@@ -1,3 +1,4 @@
+require 'pry'
 require_relative 'station'
 require_relative 'route'
 require_relative './trains/train'
@@ -107,12 +108,10 @@ class Main
       create_station
     end
     puts "Введите номер первой станции выбрав ее из списка"
-    @stations.to_enum.with_index(1).each { |station, index| puts "#{index}: #{station.title}" }
-    first_station_index = gets.to_i - 1
+    first_station_index = select_from_collection(@stations)
     puts "Введите номер последней станции выбрав ее из списка"
-    @stations.to_enum.with_index(1).each { |station, index| puts "#{index}: #{station.title}" }
-    last_station_index = gets.to_i - 1
-    route = Route.new(@stations[first_station_index], @stations[last_station_index])
+    last_station_index = select_from_collection(@stations)
+    route = Route.new(first_station_index, last_station_index)
     @routes << route
   end
 
@@ -145,7 +144,7 @@ class Main
     @routes.each do |route|
       puts route
       puts "Станции этого маршрута"
-      route.stations.to_enum.with_index(1).each { |station, index| puts "#{index}-я станция #{station.title}" }
+      show_collection(route.stations)
     end
   end
   # Trains
@@ -156,13 +155,10 @@ class Main
 
   def create_train
     puts "Выберите тип: 1 - грузовой, 2 - пассажирский"
-    train_type_choice = gets.to_i
-    if train_type_choice == 1
-      create_cargo_train
-    elsif train_type_choice == 2
-      create_passenger_train
-    else
-      puts "Нет такого типа. Попробуйте еще раз"
+    case gets.to_i
+    when 1 then create_cargo_train
+    when 2 then create_passenger_train
+    else puts "Нет такого типа. Попробуйте еще раз"
     end
   end
 
