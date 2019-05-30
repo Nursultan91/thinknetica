@@ -16,11 +16,11 @@ class Main
     @trains = []
     @wagons = []
   end
+
   def run
     loop do
       show_main_menu
       choice = gets.chomp
-      # break if choice == "quit"
       case choice.to_i
       when 1 then work_with_stations
       when 2 then work_with_routes
@@ -48,27 +48,32 @@ class Main
       end
     end
   end
+
   def show_stations_menu
     puts "Введите 1 для создания станции"
     puts "Введите 2 чтобы увидеть список всех станций"
     puts "Введите 3 чтобы рассмотреть конкретную станцию"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
+
   def create_station
     puts "Введите название станции"
     name = gets.chomp
     station = Station.new(name)
     @stations << station
   end
+
   def stations_list
     show_collection(@stations)
   end
+
   def describe_one_station
     puts "Выберите номер станции"
     station = select_from_collection(@stations)
     puts station
     puts station.trains
   end
+
   # Routes
   def work_with_routes
     loop do
@@ -85,6 +90,7 @@ class Main
       end
     end
   end
+
   def show_routes_menu
     puts "Введите 1 для создания маршрута"
     puts "Введите 2 чтобы увидеть список всех маршрутов"
@@ -93,6 +99,7 @@ class Main
     puts "Введите 5 чтобы удалить станцию из марщрута"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
+
   def create_route
     loop do
       break if @stations.length >= 2
@@ -108,6 +115,7 @@ class Main
     route = Route.new(@stations[first_station_index], @stations[last_station_index])
     @routes << route
   end
+
   def add_station_to_route
     puts "Выберите индекс маршрута"
     route = select_from_collection(@routes)
@@ -116,6 +124,7 @@ class Main
     return if route.nil? || station.nil?
     route.add_station(station)
   end
+
   def remove_station_from_route
     puts "Выберите индекс маршрута"
     route = select_from_collection(@routes)
@@ -123,12 +132,14 @@ class Main
     station = select_from_collection(@stations)
     route.del_station(station)
   end
+
   def show_route
     puts "Выберите индекс маршрута"
     route = select_from_collection(@routes)
     puts "Станции Маршрута"
     show_collection(route.stations)
   end
+
   def route_list
     puts "Все маршруты"
     @routes.each do |route|
@@ -142,6 +153,7 @@ class Main
     puts "Все поезда"
     show_collection(@trains)
   end
+
   def create_train
     puts "Выберите тип: 1 - грузовой, 2 - пассажирский"
     train_type_choice = gets.to_i
@@ -153,18 +165,21 @@ class Main
       puts "Нет такого типа. Попробуйте еще раз"
     end
   end
+
   def create_passenger_train
     puts "Введите номер поезда"
     number = gets.chomp
     train = PassengerTrain.new(number)
     @trains << train
   end
+
   def create_cargo_train
     puts "Введите номер поезда"
     number = gets.chomp
     train = CargoTrain.new(number)
     @trains << train
   end
+
   def describe_one_train
     puts "Выберите поезд по индексу"
     train = select_from_collection(@trains)
@@ -184,6 +199,7 @@ class Main
       puts "Маршрут - #{train.route}"
     end
   end
+
   def set_route_to_train
     puts "Выберите поезд"
     train = select_from_collection(@trains)
@@ -191,6 +207,7 @@ class Main
     route = select_from_collection(@routes)
     train.take_route(route)
   end
+
   def add_wagon_to_train
     puts "Выберите поезд по индексу"
     train = select_from_collection(@trains)
@@ -202,6 +219,7 @@ class Main
       train.add_wagon(wagon)
     end
   end
+
   def remove_wagon_from_train
     puts "Выберите поезд по индексу"
     train = select_from_collection(@trains)
@@ -210,16 +228,19 @@ class Main
     train.del_wagon(wagon)
     show_collection(train.train_wagons)
   end
+
   def move_train_forward
     puts "Выберите поезд по индексу"
     train = select_from_collection(@trains)
     train.go_front
   end
+
   def move_train_backward
     puts "Выберите поезд по индексу"
     train = select_from_collection(@trains)
     train.go_back
   end
+
   def show_trains_menu
     puts "Введите 1 для создания поезда"
     puts "Введите 2 чтобы увидеть список всех поездов"
@@ -231,6 +252,7 @@ class Main
     puts "Введите 8 чтобы переместить поезд по маршруту назад"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
+
   def work_with_trains
     loop do
       show_trains_menu
@@ -256,6 +278,7 @@ class Main
     puts "Введите 3 чтобы рассмотреть конкретный вагон"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
+
   def work_with_wagons
     loop do
       show_wagons_menu
@@ -269,6 +292,7 @@ class Main
       end
     end
   end
+
   def create_wagon
     puts "Выберите тип: 1 - грузовой, 2 - пассажирский"
     case gets.to_i
@@ -277,18 +301,22 @@ class Main
     else puts "Нет такого типа. Попробуйте еще раз"
     end
   end
+
   def create_passenger_wagon
     wagon = PassengerWagon.new
     @wagons << wagon
   end
+
   def create_cargo_wagon
     wagon = CargoWagon.new
     @wagons << wagon
   end
+
   def all_wagons
     puts "Все вагоны"
     show_collection(@wagons)
   end
+
   def describe_one_wagon
     puts "Выберите вагон по индексу"
     wagon = select_from_collection(@wagons)
@@ -301,6 +329,7 @@ class Main
       puts "#{index} - #{item.info}"
     end
   end
+
   def show_main_menu
     puts "Введите что вы хотите сделать?"
     puts "1 - Поработать со станциями"
@@ -309,18 +338,18 @@ class Main
     puts "4 - Поработать с ванонами"
     puts "0 - завершить программу"
   end
+
   def error_index
     puts "Я не понял чего ты хочешь"
   end
+
   def select_from_collection(collection)
     show_collection(collection)
     index = gets.to_i - 1
     return if index.negative?
     collection[index]
   end
-
-
 end
 
-ewq = Main.new
-ewq.run
+railway = Main.new
+railway.run
