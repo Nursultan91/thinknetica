@@ -72,7 +72,8 @@ class Main
     puts "Выберите номер станции"
     station = select_from_collection(@stations)
     puts station
-    puts station.trains
+    puts "Поезда на станции #{station.name}:"
+    show_collection(station.trains)
   end
 
   # Routes
@@ -128,7 +129,7 @@ class Main
     puts "Выберите индекс маршрута"
     route = select_from_collection(@routes)
     puts "Выберите индекс станции"
-    station = select_from_collection(@stations)
+    station = select_from_collection(route.stations)
     route.del_station(station)
   end
 
