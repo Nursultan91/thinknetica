@@ -62,6 +62,6 @@ class Train
   end
 
   def info
-    self.number
+    [number, type, brand].join(" - ")
   end
 end

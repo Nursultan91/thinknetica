@@ -185,6 +185,7 @@ class Main
     puts "Номер объекта -#{train}"
     puts "Тип поезда - #{train.type}"
     puts "Номер Поезда - #{train.number}"
+    puts "Бренд - #{train.brand}"
     if train.train_wagons == 0
       puts "Нет Вагонов"
     else
@@ -249,6 +250,7 @@ class Main
     puts "Введите 6 чтобы отцепить вагоны от поезда"
     puts "Введите 7 чтобы переместить поезд по маршруту вперед"
     puts "Введите 8 чтобы переместить поезд по маршруту назад"
+    puts "Введите 9 чтобы указать название бренда у поезда"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
@@ -265,6 +267,7 @@ class Main
       when 6 then remove_wagon_from_train
       when 7 then move_train_forward
       when 8 then move_train_backward
+      when 9 then assign_brand("поезда", @trains)
       when 0 then break
       else error_index
       end
@@ -347,6 +350,12 @@ class Main
     index = gets.to_i - 1
     return if index.negative?
     collection[index]
+  end
+
+  def assign_brand(item, class_title)
+    puts "Выберите номер #{item} и впишите название бренда"
+    brand_item = select_from_collection(class_title)
+    brand_item.brand = gets.chomp.to_s
   end
 end
 
