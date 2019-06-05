@@ -14,7 +14,6 @@ class Main
   include Brand
 
   def initialize
-    @stations = []
     @routes = []
     @trains = []
     @wagons = []
@@ -61,20 +60,19 @@ class Main
 
   def create_station
     puts "Введите название станции"
-    name = gets.chomp
-    station = Station.new(name)
-    @stations << station
+    title = gets.chomp
+    Station.new(title)
   end
 
   def stations_list
-    show_collection(@stations)
+    show_collection(Station.all)
   end
 
   def describe_one_station
     puts "Выберите номер станции"
-    station = select_from_collection(@stations)
+    station = select_from_collection(Station.all)
     puts station
-    puts "Поезда на станции #{station.name}:"
+    puts "Поезда на станции #{station.title}:"
     show_collection(station.trains)
   end
 
@@ -106,14 +104,14 @@ class Main
 
   def create_route
     loop do
-      break if @stations.length >= 2
+      break if Station.all.length >= 2
       puts "Для создания маршрута необходимо создать минимум две станции"
       create_station
     end
     puts "Введите номер первой станции выбрав ее из списка"
-    first_station_index = select_from_collection(@stations)
+    first_station_index = select_from_collection(Station.all)
     puts "Введите номер последней станции выбрав ее из списка"
-    last_station_index = select_from_collection(@stations)
+    last_station_index = select_from_collection(Station.all)
     route = Route.new(first_station_index, last_station_index)
     @routes << route
   end
@@ -122,7 +120,7 @@ class Main
     puts "Выберите индекс маршрута"
     route = select_from_collection(@routes)
     puts "Выберите индекс станции"
-    station = select_from_collection(@stations)
+    station = select_from_collection(Station.all)
     return if route.nil? || station.nil?
     route.add_station(station)
   end
