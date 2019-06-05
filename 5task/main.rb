@@ -278,6 +278,7 @@ class Main
     puts "Введите 1 для создания вагона"
     puts "Введите 2 чтобы увидеть список всех вагоноы"
     puts "Введите 3 чтобы рассмотреть конкретный вагон"
+    puts "Введите 4 чтобы указать название бренда у вагону"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
@@ -289,6 +290,7 @@ class Main
       when 1 then create_wagon
       when 2 then all_wagons
       when 3 then describe_one_wagon
+      when 4 then assign_brand("выгона", @wagons)
       when 0 then break
       else error_index
       end

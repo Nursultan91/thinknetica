@@ -8,6 +8,6 @@ class Wagon
   end
 
   def info
-    type
+    [type, brand].join(" - ")
   end
 end
