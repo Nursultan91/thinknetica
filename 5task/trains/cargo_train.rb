@@ -6,6 +6,7 @@ class CargoTrain < Train
     @type = "Cargo"
     @train_wagons = []
     @speed = 0
+    @@trains[number] = self
   end
 
   def attachable_wagon?(wagon)

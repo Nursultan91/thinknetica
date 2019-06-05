@@ -4,6 +4,16 @@ class Train
 
   include Brand
 
+  @@trains = {}
+
+  def self.all
+    @@trains
+  end
+
+  def self.find_by_number(number)
+    @@trains[number]
+  end
+
   def increase_speed(speed)
     @speed += speed
   end

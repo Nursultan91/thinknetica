@@ -239,6 +239,17 @@ class Main
     train.go_back
   end
 
+  def find_train
+    puts "Введите номер поезда"
+    train_number = gets.chomp
+    finded_train = Train.find_by_number(train_number)
+    if finded_train == nil
+      puts "Нет такого поезда"
+    else
+      puts "Вот ваш поезд #{finded_train.info}"
+    end
+  end
+
   def show_trains_menu
     puts "Введите 1 для создания поезда"
     puts "Введите 2 чтобы увидеть список всех поездов"
@@ -249,6 +260,7 @@ class Main
     puts "Введите 7 чтобы переместить поезд по маршруту вперед"
     puts "Введите 8 чтобы переместить поезд по маршруту назад"
     puts "Введите 9 чтобы указать название бренда у поезда"
+    puts "Введите 10 чтобы найти поезд по номеру"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
@@ -266,6 +278,7 @@ class Main
       when 7 then move_train_forward
       when 8 then move_train_backward
       when 9 then assign_brand("поезда", @trains)
+      when 10 then find_train
       when 0 then break
       else error_index
       end
