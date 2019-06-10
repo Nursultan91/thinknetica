@@ -1,10 +1,17 @@
+require_relative '../instance_counter'
 class Train
   require_relative '../brand'
   attr_reader :number, :type, :train_wagons, :route, :speed, :current_station_index
 
   include Brand
 
+  @@instances = 0
+
   @@trains = {}
+
+  def initialize
+    @@instances += 1
+  end
 
   def self.all
     @@trains

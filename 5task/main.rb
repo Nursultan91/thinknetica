@@ -2,6 +2,7 @@ require 'pry'
 require_relative 'station'
 require_relative 'route'
 require_relative 'brand'
+require_relative 'instance_counter'
 require_relative './trains/train'
 require_relative './trains/cargo_train'
 require_relative './trains/passenger_train'
@@ -12,6 +13,7 @@ require_relative './wagons/passenger_wagon'
 class Main
   attr_reader :stations, :routes, :trains, :wagons
   include Brand
+  extend InstanceCounter::ClassMethods
 
   def initialize
     @routes = []
@@ -45,6 +47,7 @@ class Main
       when 1 then create_station
       when 2 then stations_list
       when 3 then describe_one_station
+      when 4 then station_instaces_count
       when 0 then break
       else error_index
       end
@@ -55,6 +58,7 @@ class Main
     puts "Введите 1 для создания станции"
     puts "Введите 2 чтобы увидеть список всех станций"
     puts "Введите 3 чтобы рассмотреть конкретную станцию"
+    puts "Введите 4 чтобы увидеть количество станций"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
@@ -74,6 +78,10 @@ class Main
     puts station
     puts "Поезда на станции #{station.title}:"
     show_collection(station.trains)
+  end
+
+  def station_instaces_count
+    self.class.instances
   end
 
   # Routes

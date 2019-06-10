@@ -7,6 +7,7 @@ class CargoTrain < Train
     @train_wagons = []
     @speed = 0
     @@trains[number] = self
+    super
   end
 
   def attachable_wagon?(wagon)
