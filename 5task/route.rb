@@ -2,12 +2,10 @@ require_relative 'instance_counter'
 class Route
   include InstanceCounter
   attr_reader :stations
-
-  @@instances = 0
+  attr_accessor :instances
 
   def initialize(first, last)
     @stations = [first, last]
-    @@instances += 1
     register_instance
   end
 
