@@ -1,25 +1,8 @@
-require_relative '../instance_counter'
+require_relative '../manufacturer'
+
 class Train
-  require_relative '../brand'
+  include Manufacturer
   attr_reader :number, :type, :train_wagons, :route, :speed, :current_station_index
-
-  include Brand
-
-  @@instances = 0
-
-  @@trains = {}
-
-  def initialize
-    @@instances += 1
-  end
-
-  def self.all
-    @@trains
-  end
-
-  def self.find_by_number(number)
-    @@trains[number]
-  end
 
   def increase_speed(speed)
     @speed += speed
@@ -79,6 +62,6 @@ class Train
   end
 
   def info
-    [number, type, brand].join(" - ")
+    self.number
   end
 end

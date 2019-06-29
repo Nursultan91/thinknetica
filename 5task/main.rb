@@ -1,8 +1,6 @@
 require 'pry'
 require_relative 'station'
 require_relative 'route'
-require_relative 'brand'
-require_relative 'instance_counter'
 require_relative './trains/train'
 require_relative './trains/cargo_train'
 require_relative './trains/passenger_train'
@@ -12,10 +10,9 @@ require_relative './wagons/passenger_wagon'
 
 class Main
   attr_reader :stations, :routes, :trains, :wagons
-  include Brand
-  extend InstanceCounter::ClassMethods
 
   def initialize
+    @stations = []
     @routes = []
     @trains = []
     @wagons = []
@@ -47,7 +44,6 @@ class Main
       when 1 then create_station
       when 2 then stations_list
       when 3 then describe_one_station
-      when 4 then station_instaces_count
       when 0 then break
       else error_index
       end
@@ -58,30 +54,26 @@ class Main
     puts "Введите 1 для создания станции"
     puts "Введите 2 чтобы увидеть список всех станций"
     puts "Введите 3 чтобы рассмотреть конкретную станцию"
-    puts "Введите 4 чтобы увидеть количество станций"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
   def create_station
     puts "Введите название станции"
-    title = gets.chomp
-    Station.new(title)
+    name = gets.chomp
+    station = Station.new(name)
+    @stations << station
   end
 
   def stations_list
-    show_collection(Station.all)
+    show_collection(@stations)
   end
 
   def describe_one_station
     puts "Выберите номер станции"
-    station = select_from_collection(Station.all)
+    station = select_from_collection(@stations)
     puts station
-    puts "Поезда на станции #{station.title}:"
+    puts "Поезда на станции #{station.name}:"
     show_collection(station.trains)
-  end
-
-  def station_instaces_count
-    self.class.instances
   end
 
   # Routes
@@ -112,14 +104,14 @@ class Main
 
   def create_route
     loop do
-      break if Station.all.length >= 2
+      break if @stations.length >= 2
       puts "Для создания маршрута необходимо создать минимум две станции"
       create_station
     end
     puts "Введите номер первой станции выбрав ее из списка"
-    first_station_index = select_from_collection(Station.all)
+    first_station_index = select_from_collection(@stations)
     puts "Введите номер последней станции выбрав ее из списка"
-    last_station_index = select_from_collection(Station.all)
+    last_station_index = select_from_collection(@stations)
     route = Route.new(first_station_index, last_station_index)
     @routes << route
   end
@@ -128,7 +120,7 @@ class Main
     puts "Выберите индекс маршрута"
     route = select_from_collection(@routes)
     puts "Выберите индекс станции"
-    station = select_from_collection(Station.all)
+    station = select_from_collection(@stations)
     return if route.nil? || station.nil?
     route.add_station(station)
   end
@@ -191,7 +183,6 @@ class Main
     puts "Номер объекта -#{train}"
     puts "Тип поезда - #{train.type}"
     puts "Номер Поезда - #{train.number}"
-    puts "Бренд - #{train.brand}"
     if train.train_wagons == 0
       puts "Нет Вагонов"
     else
@@ -247,17 +238,6 @@ class Main
     train.go_back
   end
 
-  def find_train
-    puts "Введите номер поезда"
-    train_number = gets.chomp
-    finded_train = Train.find_by_number(train_number)
-    if finded_train == nil
-      puts "Нет такого поезда"
-    else
-      puts "Вот ваш поезд #{finded_train.info}"
-    end
-  end
-
   def show_trains_menu
     puts "Введите 1 для создания поезда"
     puts "Введите 2 чтобы увидеть список всех поездов"
@@ -267,8 +247,6 @@ class Main
     puts "Введите 6 чтобы отцепить вагоны от поезда"
     puts "Введите 7 чтобы переместить поезд по маршруту вперед"
     puts "Введите 8 чтобы переместить поезд по маршруту назад"
-    puts "Введите 9 чтобы указать название бренда у поезда"
-    puts "Введите 10 чтобы найти поезд по номеру"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
@@ -285,8 +263,6 @@ class Main
       when 6 then remove_wagon_from_train
       when 7 then move_train_forward
       when 8 then move_train_backward
-      when 9 then assign_brand("поезда", @trains)
-      when 10 then find_train
       when 0 then break
       else error_index
       end
@@ -297,7 +273,6 @@ class Main
     puts "Введите 1 для создания вагона"
     puts "Введите 2 чтобы увидеть список всех вагоноы"
     puts "Введите 3 чтобы рассмотреть конкретный вагон"
-    puts "Введите 4 чтобы указать название бренда у вагону"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
@@ -309,7 +284,6 @@ class Main
       when 1 then create_wagon
       when 2 then all_wagons
       when 3 then describe_one_wagon
-      when 4 then assign_brand("выгона", @wagons)
       when 0 then break
       else error_index
       end
@@ -371,12 +345,6 @@ class Main
     index = gets.to_i - 1
     return if index.negative?
     collection[index]
-  end
-
-  def assign_brand(item, class_title)
-    puts "Выберите номер #{item} и впишите название бренда"
-    brand_item = select_from_collection(class_title)
-    brand_item.brand = gets.chomp.to_s
   end
 end
 

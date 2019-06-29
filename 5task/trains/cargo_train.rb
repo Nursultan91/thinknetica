@@ -1,3 +1,4 @@
+require_relative '../manufacturer'
 require_relative 'train'
 
 class CargoTrain < Train
@@ -6,8 +7,6 @@ class CargoTrain < Train
     @type = "Cargo"
     @train_wagons = []
     @speed = 0
-    @@trains[number] = self
-    super
   end
 
   def attachable_wagon?(wagon)
