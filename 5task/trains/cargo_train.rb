@@ -1,4 +1,3 @@
-require_relative '../manufacturer'
 require_relative 'train'
 
 class CargoTrain < Train
