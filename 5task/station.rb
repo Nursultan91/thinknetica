@@ -1,9 +1,15 @@
 class Station
   attr_reader :title, :trains
 
+  @@stations = []
+
+  def self.all
+    puts @@stations
+  end
   def initialize(title)
     @title = title
     @trains = []
+    @@stations.push(self )
   end
 
   def park_train(train)

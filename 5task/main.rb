@@ -44,6 +44,7 @@ class Main
       when 1 then create_station
       when 2 then stations_list
       when 3 then describe_one_station
+      when 4 then call_station_all_method
       when 0 then break
       else error_index
       end
@@ -54,6 +55,7 @@ class Main
     puts "Введите 1 для создания станции"
     puts "Введите 2 чтобы увидеть список всех станций"
     puts "Введите 3 чтобы рассмотреть конкретную станцию"
+    puts "Введите 4 чтобы вызвать метод Station.all"
     puts "Введите 0 чтобы выйти в предыдущее меню"
   end
 
@@ -74,6 +76,10 @@ class Main
     puts station
     puts "Поезда на станции #{station.name}:"
     show_collection(station.trains)
+  end
+
+  def call_station_all_method
+    Station.all
   end
 
   # Routes
