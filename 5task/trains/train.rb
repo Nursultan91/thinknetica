@@ -3,7 +3,22 @@ require_relative '../manufacturer'
 class Train
   include Manufacturer
   attr_reader :number, :type, :train_wagons, :route, :speed, :current_station_index
+  @@trains = []
 
+  def self.find_by_num(num)
+    @@trains.find { |train| train.number == num}
+  end
+
+  def self.all
+    @@trains
+  end
+
+  def initialize(number)
+    @number = number
+    @train_wagons = []
+    @speed = 0
+    @@trains.push(self)
+  end
   def increase_speed(speed)
     @speed += speed
   end

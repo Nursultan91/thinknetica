@@ -2,10 +2,8 @@ require_relative 'train'
 
 class CargoTrain < Train
   def initialize(number)
-    @number = number
     @type = "Cargo"
-    @train_wagons = []
-    @speed = 0
+    super
   end
 
   def attachable_wagon?(wagon)

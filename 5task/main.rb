@@ -1,4 +1,5 @@
 require 'pry'
+require_relative 'manufacturer'
 require_relative 'station'
 require_relative 'route'
 require_relative './trains/train'
@@ -10,6 +11,7 @@ require_relative './wagons/passenger_wagon'
 
 class Main
   attr_reader :stations, :routes, :trains, :wagons
+  include Manufacturer
 
   def initialize
     @stations = []
@@ -155,6 +157,39 @@ class Main
     end
   end
   # Trains
+  def show_trains_menu
+    puts "Введите 1 для создания поезда"
+    puts "Введите 2 чтобы увидеть список всех поездов"
+    puts "Введите 3 чтобы рассмотреть конкретный поезд"
+    puts "Введите 4 чтобы назначать маршрут поезду"
+    puts "Введите 5 чтобы добавить вагоны к поезду"
+    puts "Введите 6 чтобы отцепить вагоны от поезда"
+    puts "Введите 7 чтобы переместить поезд по маршруту вперед"
+    puts "Введите 8 чтобы переместить поезд по маршруту назад"
+    puts "Введите 9 чтобы найти поезд по номеру"
+    puts "Введите 0 чтобы выйти в предыдущее меню"
+  end
+
+  def work_with_trains
+    loop do
+      show_trains_menu
+      choice = gets.to_i
+      case choice
+      when 1 then create_train
+      when 2 then all_trains
+      when 3 then describe_one_train
+      when 4 then set_route_to_train
+      when 5 then add_wagon_to_train
+      when 6 then remove_wagon_from_train
+      when 7 then move_train_forward
+      when 8 then move_train_backward
+      when 9 then find_train_by_number
+      when 0 then break
+      else error_index
+      end
+    end
+  end
+
   def all_trains
     puts "Все поезда"
     show_collection(@trains)
@@ -244,36 +279,32 @@ class Main
     train.go_back
   end
 
-  def show_trains_menu
-    puts "Введите 1 для создания поезда"
-    puts "Введите 2 чтобы увидеть список всех поездов"
-    puts "Введите 3 чтобы рассмотреть конкретный поезд"
-    puts "Введите 4 чтобы назначать маршрут поезду"
-    puts "Введите 5 чтобы добавить вагоны к поезду"
-    puts "Введите 6 чтобы отцепить вагоны от поезда"
-    puts "Введите 7 чтобы переместить поезд по маршруту вперед"
-    puts "Введите 8 чтобы переместить поезд по маршруту назад"
-    puts "Введите 0 чтобы выйти в предыдущее меню"
+  def find_train_by_number
+    puts "Введите номер поезда"
+    num = gets.to_i
+    puts Train.find_by_num(num)
+    # if searched_train == nil
+    #   puts "Нет поезда с таким номером"
+    # else
+    #   puts "Поезд который вы искали это"
+    #   puts "Номер объекта -#{searched_train}"
+    #   puts "Тип поезда - #{searched_train.type}"
+    #   puts "Номер Поезда - #{searched_train.number}"
+    #   if searched_train.train_wagons == 0
+    #     puts "Нет Вагонов"
+    #   else
+    #     puts "Количество вагонов - #{searched_train.train_wagons}"
+    #   end
+    #
+    #   if searched_train.route == nil
+    #     puts "Поезд в Депо"
+    #   else
+    #     puts "Текущая станция - #{searched_train.current_station.title}"
+    #     puts "Маршрут - #{searched_train.route}"
+    #   end
+    # end
   end
 
-  def work_with_trains
-    loop do
-      show_trains_menu
-      choice = gets.to_i
-      case choice
-      when 1 then create_train
-      when 2 then all_trains
-      when 3 then describe_one_train
-      when 4 then set_route_to_train
-      when 5 then add_wagon_to_train
-      when 6 then remove_wagon_from_train
-      when 7 then move_train_forward
-      when 8 then move_train_backward
-      when 0 then break
-      else error_index
-      end
-    end
-  end
   # WAGONS
   def show_wagons_menu
     puts "Введите 1 для создания вагона"
