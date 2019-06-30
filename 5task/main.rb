@@ -281,28 +281,28 @@ class Main
 
   def find_train_by_number
     puts "Введите номер поезда"
-    num = gets.to_i
-    puts Train.find_by_num(num)
-    # if searched_train == nil
-    #   puts "Нет поезда с таким номером"
-    # else
-    #   puts "Поезд который вы искали это"
-    #   puts "Номер объекта -#{searched_train}"
-    #   puts "Тип поезда - #{searched_train.type}"
-    #   puts "Номер Поезда - #{searched_train.number}"
-    #   if searched_train.train_wagons == 0
-    #     puts "Нет Вагонов"
-    #   else
-    #     puts "Количество вагонов - #{searched_train.train_wagons}"
-    #   end
-    #
-    #   if searched_train.route == nil
-    #     puts "Поезд в Депо"
-    #   else
-    #     puts "Текущая станция - #{searched_train.current_station.title}"
-    #     puts "Маршрут - #{searched_train.route}"
-    #   end
-    # end
+    num = gets.chomp
+    searched_train = Train.find_by_num(num)
+    if searched_train == nil
+      puts "Нет поезда с таким номером"
+    else
+      puts "Поезд который вы искали это"
+      puts "Номер объекта -#{searched_train}"
+      puts "Тип поезда - #{searched_train.type}"
+      puts "Номер Поезда - #{searched_train.number}"
+      if searched_train.train_wagons == 0
+        puts "Нет Вагонов"
+      else
+        puts "Количество вагонов - #{searched_train.train_wagons}"
+      end
+
+      if searched_train.route == nil
+        puts "Поезд в Депо"
+      else
+        puts "Текущая станция - #{searched_train.current_station.title}"
+        puts "Маршрут - #{searched_train.route}"
+      end
+    end
   end
 
   # WAGONS
