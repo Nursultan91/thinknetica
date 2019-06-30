@@ -1,4 +1,7 @@
+require_relative 'instance_counter'
+
 class Station
+  include InstanceCounter
   attr_reader :title, :trains
 
   @@stations = []
@@ -10,6 +13,7 @@ class Station
     @title = title
     @trains = []
     @@stations.push(self )
+    register_instance
   end
 
   def park_train(train)
