@@ -9,10 +9,11 @@ class Station
   def self.all
     puts @@stations
   end
+
   def initialize(title)
     @title = title
     @trains = []
-    @@stations.push(self )
+    @@stations.push(self)
     register_instance
   end
 

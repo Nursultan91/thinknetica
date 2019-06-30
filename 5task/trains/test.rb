@@ -1,3 +1,4 @@
+require_relative '../route'
 require_relative 'train'
 require_relative '../station'
 require_relative 'passenger_train'
@@ -6,6 +7,10 @@ require_relative 'cargo_train'
 wall = Station.new("wall")
 dorn = Station.new("dorn")
 north = Station.new("north")
+
+ewq = Route.new(wall, dorn)
+puts ewq.class.instances
+puts wall.class.instances
 
 # ewq = CargoTrain.new(123)
 # dsa = CargoTrain.new(234)
@@ -18,8 +23,8 @@ north = Station.new("north")
 # puts cxz.class.instances
 # puts zxc.class.instances
 # puts zxc.class.ancestors
-puts Station.instances
-puts Station.ancestors
+# puts Station.instances
+# puts Station.ancestors
 #
 # class Test
 #   class << self
